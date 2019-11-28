@@ -1,0 +1,33 @@
+os: linux
+language: generic
+services:
+- docker
+env:
+  global:
+  - DOCKER_TAG="zfs-archiso-build"
+  - BUILD_DIR="/opt/zfs-archiso"
+  - ISO_PREFIX="zfs-archiso"
+  - ISO_VER="$(date +%Y-%m-%d)"
+  - ISO_REL="${ISO_PREFIX}-${ISO_VER}"
+  - PUBLISHER="lasersharks"
+before_script:
+- docker build -t "$DOCKER_TAG" .
+script:
+- docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG" ./build.sh
+  -v -N "$ISO_PREFIX" -V "$ISO_VER" -P "$PUBLISHER"
+before_deploy:
+- git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+- git config --local user.email "$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
+- export TRAVIS_TAG="$ISO_REL"
+- git tag "$TRAVIS_TAG"
+- export RELEASE_ISO="$(find ${BUILD_DIR}/out -name '*.iso')"
+deploy:
+  provider: releases
+  api_key: "$GITHUB_OAUTH_TOKEN"
+  skip_cleanup: true
+  overwrite: true
+  file: "${RELEASE_ISO}"
+  on:
+    repo: lasersharks/zfs-archiso
+notifications:
+  email: false
