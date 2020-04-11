@@ -10,22 +10,21 @@ env:
   - ISO_REL="${ISO_PREFIX}-${ISO_VER}"
   - PUBLISHER="lasersharks"
 before_script:
-- docker build -t "$DOCKER_TAG" .
+  - docker build -t "$DOCKER_TAG" .
 script:
-- docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG" ./build.sh
-  -v -N "$ISO_PREFIX" -V "$ISO_VER" -P "$PUBLISHER"
+  - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG" \
+    ./build.sh -v -N "$ISO_PREFIX" -V "$ISO_VER" -P "$PUBLISHER"
 before_deploy:
-- git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
-- git config --local user.email "$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
-- export TRAVIS_TAG="$ISO_REL"
-- git tag "$TRAVIS_TAG"
-- export RELEASE_ISO="$(find ./out -name '*.iso')"
+  - git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
+  - git config --local user.email "$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
+  - git tag "$ISO_REL"
+  - export RELEASE_ISO="$(find ./out -name '*.iso')"
 deploy:
   provider: releases
   api_key: "$GITHUB_OAUTH_TOKEN"
   skip_cleanup: true
   overwrite: true
-  file: "${RELEASE_ISO}"
+  file: "$RELEASE_ISO"
   on:
     repo: lasersharks/zfs-archiso
 notifications:
