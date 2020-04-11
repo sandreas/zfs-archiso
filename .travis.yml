@@ -12,7 +12,7 @@ env:
 before_script:
   - docker build -t "$DOCKER_TAG" .
 script:
-  - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG" \
+  - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG"
     ./build.sh -v -N "$ISO_PREFIX" -V "$ISO_VER" -P "$PUBLISHER"
 before_deploy:
   - git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
