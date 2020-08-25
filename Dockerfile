@@ -7,7 +7,6 @@ RUN pacman -Syu --noconfirm archiso base base-devel
 
 RUN pacman -Syy
 RUN rm -R /etc/pacman.d/gnupg/
-RUN rm -R /root/.gnupg/
 RUN gpg --refresh-keys
 RUN pacman-key --init && pacman-key --populate
 RUN pacman-key --refresh-keys
