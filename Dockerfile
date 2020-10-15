@@ -19,5 +19,3 @@ RUN printf 'zfs-linux\nzfs-utils' >> $BUILD_DIR/packages.x86_64
 VOLUME "$BUILD_DIR/out"
 
 WORKDIR "$BUILD_DIR"
-
-CMD ["./build.sh", "-v"]

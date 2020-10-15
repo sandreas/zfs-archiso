@@ -5,16 +5,15 @@ services:
 env:
   global:
   - DOCKER_TAG="zfs-archiso-build"
-  - ISO_PREFIX="zfs-archiso"
-  - ISO_VER="$(date +%Y-%m-%d)"
-  - ISO_REL="${ISO_PREFIX}-${ISO_VER}"
+  - ISO_REL="zfs-archiso-$(date +%Y-%m-%d)"
   - PUBLISHER="lasersharks"
 before_script:
   - docker build -t "$DOCKER_TAG" .
 script:
   - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG"
-    ./build.sh -v -N "$ISO_PREFIX" -V "$ISO_VER" -P "$PUBLISHER"
+    mkarchiso -v -L "$ISO_REL" -P "$PUBLISHER"
 before_deploy:
+  - mv $PWD/out/*.iso $PWD/out/"${ISO_PREFIX}-${ISO_VER}"-x86_64.iso
   - git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
   - git config --local user.email "$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
   - git tag "$ISO_REL"
