@@ -11,7 +11,11 @@ RUN cp -r /usr/share/archiso/configs/releng "${BUILD_DIR}"
 RUN printf '\n[archzfs]\nServer = https://archzfs.com/$repo/$arch\nSigLevel = Optional TrustAll' >> "${BUILD_DIR}/pacman.conf"
 RUN printf 'zfs-linux\nzfs-utils' >> "${BUILD_DIR}/packages.x86_64"
 
+
 WORKDIR "${BUILD_DIR}"
+
+COPY profiledef.sh "${BUILD_DIR}"
+
 VOLUME "${BUILD_DIR}/out"
 
 CMD ["/usr/bin/mkarchiso", "-v", "."]
