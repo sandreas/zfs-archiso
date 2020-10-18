@@ -21,4 +21,4 @@ VOLUME "$BUILD_DIR/out"
 
 WORKDIR "$BUILD_DIR"
 
-CMD ["/usr/bin/mkarchiso", "-v", "${BUILD_DIR}"]
+CMD ["/usr/bin/mkarchiso", "-v", "/opt/archiso"]
