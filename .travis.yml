@@ -14,7 +14,7 @@ before_script:
 script:
   - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG"
 before_deploy:
-  - mv $PWD/out/*.iso $PWD/out/"${ISO_PREFIX}-${ISO_VER}"-x86_64.iso
+  - mv $PWD/out/*.iso $PWD/out/${ISO_REL}"-x86_64.iso
   - git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
   - git config --local user.email "$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
   - git tag "$ISO_REL"
