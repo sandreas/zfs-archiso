@@ -9,7 +9,7 @@ env:
 before_script:
   - docker build -t "$DOCKER_TAG" .
 script:
-  - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG"
+  - docker run --privileged --volume="$PWD/out:/opt/zfs-archiso/out" "$DOCKER_TAG" mkarchiso -v .
 before_deploy:
   - git config --local user.name "$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
   - git config --local user.email "$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
