@@ -1,4 +1,4 @@
-FROM archlinux/base
+FROM archlinux
 
 ARG ARCHZFS_KEY="F75D9D76"
 ARG BUILD_DIR="/opt/zfs-archiso"
