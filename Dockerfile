@@ -9,7 +9,7 @@ RUN printf 'keyserver hkp://keyserver.ubuntu.com' >> /etc/pacman.d/gnupg/gpg.con
 RUN pacman-key -r "$ARCHZFS_KEY" && pacman-key --lsign-key "$ARCHZFS_KEY"
 RUN cp -r /usr/share/archiso/configs/releng "${BUILD_DIR}"
 RUN printf '\n[archzfs]\nServer = https://archzfs.com/$repo/$arch\nSigLevel = Optional TrustAll' >> "${BUILD_DIR}/pacman.conf"
-RUN printf 'zfs-linux\nzfs-utils' >> "${BUILD_DIR}/packages.x86_64"
+RUN printf 'zfs-linux\nzfs-utils\nmemtest86+' >> "${BUILD_DIR}/packages.x86_64"
 
 
 WORKDIR "${BUILD_DIR}"
