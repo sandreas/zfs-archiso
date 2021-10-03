@@ -11,10 +11,6 @@ RUN cp -r /usr/share/archiso/configs/releng "${BUILD_DIR}"
 
 WORKDIR "${BUILD_DIR}"
 
-COPY pacman.conf "${BUILD_DIR}"
-COPY packages.x86_64 "${BUILD_DIR}"
-COPY profiledef.sh "${BUILD_DIR}"
-
 VOLUME "${BUILD_DIR}/out"
 
 CMD ["/usr/bin/mkarchiso", "-v", "."]
